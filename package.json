@@ -14,7 +14,7 @@
   "name": "com.pspkurara.sceneries",
   "repository": "https://github.com/pspkurara/sceneries.git",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "library",
   "dependencies": {
     "com.unity.ugui": "1.0.0",
