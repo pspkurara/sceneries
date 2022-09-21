@@ -99,6 +99,9 @@ m_ShowDialog.onClick.AddListener(() =>
 3. Animation will work if you attach it to the "Setting" of the screen.
 4. Setting the "Allow Duplicate Playback" flag to true will animate the screen before and after the transition at the same time.
 
+### Full API references
+* https://pspkurara.github.io/sceneries/
+
 ## Installation
 
 ### Using OpenUPM
