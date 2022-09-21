@@ -56,7 +56,7 @@ jobs:
         fi
         git push -f -u origin upm
       env:
-        PKG_ROOT: Packages/ExternalSelectionState
+        PKG_ROOT: Packages/Sceneries
         CHANGELOG: CHANGELOG.md 
         CHANGELOG_META: CHANGELOG.md.meta 
         CHANGELOG_COPY: cnglg.copy 
