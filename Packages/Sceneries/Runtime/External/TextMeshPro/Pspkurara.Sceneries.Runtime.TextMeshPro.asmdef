@@ -1,0 +1,22 @@
+{
+    "name": "Pspkurara.Sceneries.Runtime.TextMeshPro",
+    "references": [
+        "GUID:965b15ed93c4fa24a87a4d2fa7be4abe",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.textmeshpro",
+            "expression": "",
+            "define": "SCENERIES_TEXTMESHPRO_SUPPORT"
+        }
+    ],
+    "noEngineReferences": false
+}

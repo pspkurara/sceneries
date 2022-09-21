@@ -1,0 +1,18 @@
+{
+    "name": "Pspkurara.Sceneries.Editor",
+    "references": [
+        "GUID:965b15ed93c4fa24a87a4d2fa7be4abe",
+        "GUID:01a6dd6810459a64780d39fd69daf68e"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

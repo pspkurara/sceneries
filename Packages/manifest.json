@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+    "com.pspkurara.singleton": "https://github.com/pspkurara/singleton.git#upm",
+    "com.unity.textmeshpro": "2.1.6",
+    "com.unity.timeline": "1.2.18",
+    "com.unity.ugui": "1.0.0",
+    "com.unity.modules.ui": "1.0.0"
+  }
+}

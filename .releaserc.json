@@ -1,0 +1,17 @@
+{
+  "tagFormat": "v${version}",
+  "plugins": [
+    ["@semantic-release/commit-analyzer", { "preset": "angular" }],
+    "@semantic-release/release-notes-generator",
+    ["@semantic-release/changelog", { 
+	"preset": "angular" ,
+	"changelogTitle": "# Changelog\n\nこのプロジェクトへの重要な変更はすべてこのファイルに記録されます。"
+	}],
+    ["@semantic-release/npm", { "npmPublish": false, "pkgRoot": "Packages/Sceneries" }],
+    ["@semantic-release/git", {
+      "assets": ["Packages/Sceneries/package.json", "CHANGELOG.md"],
+      "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+    }],
+    "@semantic-release/github"
+  ]
+}

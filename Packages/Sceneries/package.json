@@ -1,0 +1,25 @@
+{
+  "category": "Unity",
+  "description": "A simple uGUI screen transition system.",
+  "displayName": "Sceneries",
+  "author": "pspkurara",
+  "keywords": [
+    "GUI",
+    "UI",
+    "uGUI",
+    "Scene",
+    "Sceneries",
+    "SceneManagement"
+  ],
+  "name": "com.pspkurara.sceneries",
+  "repository": "https://github.com/pspkurara/sceneries.git",
+  "license": "MIT",
+  "version": "1.0.0",
+  "type": "library",
+  "dependencies": {
+    "com.unity.ugui": "1.0.0",
+    "com.cysharp.unitask": "2.3.0",
+    "com.pspkurara.singleton": "1.0.0"
+  },
+  "unity": "2017.1"
+}
