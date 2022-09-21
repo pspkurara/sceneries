@@ -1,119 +1,103 @@
-# External Selection State (ESS)
+# Sceneries
 
-The system allows external access to Selection.SelectionState, which is a protected Enum of uGUI.</br>
-You need to create your own UI (CustomButton, CustomToggle, etc.) classes that inherit from components that inherit from Selection classes such as Button and Toggle, and implement this library.
+UI screen transition system using uGUI.
+Supports full screen screens and dialogs.
 
-[![](https://img.shields.io/npm/v/com.pspkurara.external-selection-state?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.pspkurara.external-selection-state/)
-[![](https://img.shields.io/github/v/release/pspkurara/external-selection-state)](https://github.com/pspkurara/external-selection-state/releases/)
-[![](https://img.shields.io/github/watchers/pspkurara/external-selection-state?style=social)](https://github.com/pspkurara/external-selecion-state/subscription)
+[![](https://img.shields.io/npm/v/com.pspkurara.sceneries?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.pspkurara.sceneries/)
+[![](https://img.shields.io/github/v/release/pspkurara/sceneries)](https://github.com/pspkurara/sceneries/releases/)
+[![](https://img.shields.io/github/watchers/pspkurara/sceneries?style=social)](https://github.com/pspkurara/external-selecion-state/subscription)
 
 ## Usage
 
-### Creating a UI that inherits from "UnityEngine.UI.Selectable"
+### Create Scene
 
-1. Create a script that extends the UI (e.g. UnityEngine.UI.Button etc.) class to which you want to add ESS functionality. (Selection is limited to components that have UnityEngine.UI.)
-2. Add "using Pspkurara.UI" and "using Pspkurara.UI.ESS", 
-3. Make it inherit the "ISelectableWithESS" interface and implementation functions.
-4. Override the "Selection.DoStateTransition" function and call "this.DoStateTransitionFromSelectable" function.
+1. Create a new script and add "using Pspkurara.Sceneries".
+2. Inherits the "Scene" class.
+3. Override virtual functions to describe scene processing.
+4. Build a scene prefab based on the template, attach the script to the prefab, and save it in a folder. (Default is Resources/Sceneries/{prefab name})
+5. Load a scene by calling the "SceneriesManager.LoadScene(scene name)" function from another scene.
+6. Set the initial scene name to "Initialize Load Sceneries Name" in the "SceneriesManager" prefab.
 ```
 using UnityEngine;
+using Pspkurara.Sceneries;
+using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
-using Pspkurara.UI;
-using Pspkurara.UI.ESS;
 
-public class CustomButton : Button, ISelectableWithESS
+// This is a scene sample of screen transition..
+public class SampleTitleScene : Scene
 {
-	// Use UnityEvent to register in the inspector and execute in the editor.
-	[SerializeField]
-	private OnDoStateTransitionEvent m_OnDoStateTransitionEvent = new OnDoStateTransitionEvent();
-	
-	public ExternalSelectionState currentExternalSelectionState
-	{ 	// Convert protected Selectable.SelectionState to public.
-		get { return (ExternalSelectionState)(int)base.currentSelectionState; } 
-	}
-	
-	public OnDoStateTransitionEvent onDoStateTransition
-	{	// Callback executed when DoStateTransition is called.
-		get { return m_OnDoStateTransitionEvent ; } 
-	}
-	
-	protected override void DoStateTransition(SelectionState state, bool instant)
+
+	[SerializeField] private Button m_GoMenuButton;
+
+	// initialize scene.
+	protected override UniTask OnInstancedScene()
 	{
-		base.DoStateTransition(state, instant);
-		// Trigger from UnityEngine.UI.Selectable.
-		this.DoStateTransitionFromSelectable((int)state, instant);
-	}
-}
-```
-
-### Create a script to add functionality to an extended "UnityEngine.UI.Selectable"
-
-1. Create a new script and add "using Pspkurara.UI".
-2. Add an implementation to receive "ISelectableWithESS".
-3. Implement a function with the same arguments as "Selectable.DoStateTransition". (OnDoStateTransition thereafter)
-4. Added implementation to register with ESS callbacks upon generation or activation.
-5. Added implementation to release ESS callback on destroy or disable.
-6. Add "immediate reflection" call just before adding callback.
-7. Implement the function or effect you want to have in the ”OnDoStateTransition”.
-```
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using Pspkurara.UI;
-
-public class SampleLink : UIBehaviour
-{
-	// Own Selectable.
-	private ISelectableWithESS m_Selectable;
-
-	/// <summary>
-	/// Own Selectable.
-	/// ISelectableWithESS must be inherited.
-	/// </summary>
-	public ISelectableWithESS selectable {
-		get {
-			// interface cannot be Serialized, so it should be acquired automatically.
-			if (m_Selectable == null)
-			{
-				m_Selectable = GetComponent<ISelectableWithESS>();
-			}
-			return m_Selectable;
-		}
-	}
-
-	protected override void OnEnable()
-	{
-		if (selectable == null) return;
-
-		// Immediate reflection at initialization.
-		OnDoStateTransition(selectable.currentExternalSelectionState, true);
-
-		// Callback Registration.
-		selectable.onDoStateTransition.AddListener(OnDoStateTransition);
-	}
-
-	protected override void OnDisable()
-	{
-		if (selectable == null) return;
-		
-		// Callback Release.
-		selectable.onDoStateTransition.RemoveListener(OnDoStateTransition);
-	}
-
-	// Called when there is an actual change in state.
-	private void OnDoStateTransition(ExternalSelectionState state, bool instant)
-	{
-		// any processing.
-		Debug.Log(state);
+		// add the move scene function.
+		m_GoMenuButton.onClick.AddListener(() =>
+		{
+			SceneriesManager.LoadScene("SampleMenuScene");
+		});
+		return base.OnInstancedScene();
 	}
 
 }
 ```
 
-### Use the components you have created
+### Create Dialog
 
-1. Attach an effect adaptation component (SampleLink in the example) to an object with an extended Selectable (CustomButton in the example).
-2. Execute or change parameters and check if they are reflected correctly.
+1. Create a new script and add "using Pspkurara.Sceneries.Dialogs".
+2. Inherits the "Dialog" class. but most of the time you want a button, so extend "ArrayButtonDialog" instead.
+3. Override virtual functions to describe scene processing.
+4. Build a scene prefab based on the template, attach the script to the prefab, and save it in a folder. (Default is Resources/Dialogs/{prefab name})
+5. Load a dialog by calling the "DialogManager.ShowDialog<DialogClass>(dialog name, dialog initializer).Forget()" function from another scene.
+```
+using UnityEngine;
+using UnityEngine.UI;
+using Pspkurara.Sceneries.Dialogs;
+
+// simple the title and message dialog sample.
+public class SampleMessageDialog : ArrayButtonsDialog
+{
+
+	[SerializeField] private Text m_Title;
+	[SerializeField] private Text m_Message;
+
+	// set title.
+	public void SetTitle(string title)
+	{
+		m_Title.text = title;
+	}
+
+	// set message.
+	public void SetMessage(string message)
+	{
+		m_Message.text = message;
+	}
+
+}
+```
+
+```
+// add the show dialog function.
+m_ShowDialog.onClick.AddListener(() =>
+	{
+	DialogManager.ShowDialog<SampleMessageDialog>("SampleMessageDialog", (dialog) =>
+	{
+		dialog.SetTitle("Sample Dialog");
+		dialog.SetMessage("Sample Dialog Details");
+		dialog.SetActiveButtons(1);
+		dialog.SetButtonTitle(0, "Close");
+		dialog.SetButtonCallback(0, dialog.Close);
+	}).Forget();
+});
+```
+
+### Transition animation
+
+1. Attaches a "StandardSceneTransition" to a Scene or Dialog attached object. (Another option is "PlayableSceneTransition" using the timeline)
+2. Set the animation by referring to DefaultSceneTransition and DefaultSceneLoader in Templates. (If you edit at will, please copy or create from "Create/Pspkurara/Sceneries/Standard Scene Transition Setting")
+3. Animation will work if you attach it to the "Setting" of the screen.
+4. Setting the "Allow Duplicate Playback" flag to true will animate the screen before and after the transition at the same time.
 
 ## Installation
 
@@ -121,7 +105,7 @@ public class SampleLink : UIBehaviour
 Go to Unity's project folder on the command line and call:
 
 ```
-openupm add com.pspkurara.external-selection-state
+openupm add com.pspkurara.sceneries
 ```
 
 ### Using Unity Package Manager (For Unity 2018.3 or later)
@@ -130,7 +114,7 @@ Find the manifest.json file in the Packages folder of your project and edit it t
 ```
 {
   "dependencies": {
-    "com.pspkurara.external-selection-state": "https://github.com/pspkurara/external-selection-state.git#upm",
+    "com.pspkurara.sceneries": "https://github.com/pspkurara/sceneries.git#upm",
     ...
   },
 }
@@ -142,7 +126,7 @@ May work in Unity5, but unofficial.
 
 ## License
 
-* [MIT](https://github.com/pspkurara/external-selection-state/blob/master/Packages/ExternalSelectionState/LICENSE.md)
+* [MIT](https://github.com/pspkurara/sceneries/blob/master/Packages/Sceneries/LICENSE.md)
 
 ## Author
 
@@ -151,4 +135,4 @@ May work in Unity5, but unofficial.
 
 ## See Also
 
-* GitHub page : https://github.com/pspkurara/external-selection-state
+* GitHub page : https://github.com/pspkurara/sceneries
