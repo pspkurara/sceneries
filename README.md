@@ -3,7 +3,7 @@
 UI screen transition system using uGUI.
 Supports full screen screens and dialogs.
 
-[![](https://img.shields.io/npm/v/com.pspkurara.sceneries?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.pspkurara.sceneries/)
+[![openupm](https://img.shields.io/npm/v/com.pspkurara.sceneries?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.pspkurara.sceneries/)
 [![](https://img.shields.io/github/v/release/pspkurara/sceneries)](https://github.com/pspkurara/sceneries/releases/)
 [![](https://img.shields.io/github/watchers/pspkurara/sceneries?style=social)](https://github.com/pspkurara/external-selecion-state/subscription)
 
